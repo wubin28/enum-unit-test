@@ -26,7 +26,7 @@ public class BackToEntryBeforeAcceptance {
 
             if (StringUtils.isNotBlank(sendCode)) {
                 RuleEntity ruleEntity = repository.loadRuleBySendCode(sendCode);
-                new Utils().validateBeforeAcceptance(sendCode, operatorId, ruleEntity, this);
+                new Utils().validateBeforeAcceptance(sendCode, operatorId, ruleEntity, this.userService, this.repository);
 
                 Boolean elaboratelySelected = repository.isElaboratelySelected(ruleEntity.getRuleId());
                 if (elaboratelySelected) {
