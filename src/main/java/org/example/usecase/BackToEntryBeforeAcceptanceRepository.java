@@ -5,7 +5,7 @@ public class BackToEntryBeforeAcceptanceRepository {
         return null;
     }
 
-    public boolean isOnTransfer(Object policyId) {
+    public boolean isOnTransfer(Long policyId) {
         return false;
     }
 

@@ -9,12 +9,12 @@ public class RuleEntity {
         return null;
     }
 
-    public Object getRuleId() {
+    public Long getRuleId() {
         return null;
     }
 
-    public int getIssueWay() {
-        return 0;
+    public Long getIssueWay() {
+        return Long.valueOf(0);
     }
 
     public Object getSendCode() {

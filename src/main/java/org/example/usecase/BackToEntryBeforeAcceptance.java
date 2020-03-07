@@ -26,7 +26,34 @@ public class BackToEntryBeforeAcceptance {
 
             if (StringUtils.isNotBlank(sendCode)) {
                 RuleEntity ruleEntity = repository.loadRuleBySendCode(sendCode);
-                new Utils().validateBeforeAcceptance(sendCode, operatorId, ruleEntity, this.userService, this.repository);
+                if (ruleEntity == null) {
+                    throw new ValidateException("单据不存在！");
+                }
+                if ("2".equals(ruleEntity.getRuleType())) {
+                    throw new ValidateException("当前操作暂不支持！");
+                }
+                if (!this.userService.existsUser(operatorId)) {
+                    throw new ValidateException("操作用户不存在！");
+                }
+                if (Long.valueOf(RuleStatusEnum.WAITING_ACCEPTANCE.getValue()).compareTo(ruleEntity.getPStateId()) != 0) {
+                    throw new ValidateException("状态必须是等待!");
+                }
+                if (sendCode.endsWith("026")) {
+                    throw new ValidateException("仅支持按号码操作，退回录入!");
+                }
+                if (this.repository.isOnTransfer(ruleEntity.getRuleId())) {
+                    throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
+                }
+                if (ruleEntity.getIssueWay() == 6 || ruleEntity.getIssueWay() == 11) {
+                    throw new ValidateException("电话与手机平台不允许此操作!");
+                }
+                Integer result = this.repository.updateRuleFeeStatus(ruleEntity.getRuleId(), ruleEntity.getRuleType(), operatorId);
+                if (result == 1) {
+                    throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
+                }
+                if (result == 2) {
+                    throw new ValidateException("有问题，不能预收!");
+                }
 
                 Boolean elaboratelySelected = repository.isElaboratelySelected(ruleEntity.getRuleId());
                 if (elaboratelySelected) {
