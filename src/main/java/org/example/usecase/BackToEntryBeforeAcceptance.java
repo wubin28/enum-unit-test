@@ -44,7 +44,7 @@ public class BackToEntryBeforeAcceptance {
                 if (this.repository.isOnTransfer(ruleEntity.getRuleId())) {
                     throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
                 }
-                new Utils().verifyBeforeAcceptanceForPhoneAndMobile(ruleEntity);
+                Utils.verifyBeforeAcceptanceForPhoneAndMobile(ruleEntity);
                 Integer result = this.repository.updateRuleFeeStatus(ruleEntity.getRuleId(), ruleEntity.getRuleType(), operatorId);
                 if (result == 1) {
                     throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
