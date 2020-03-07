@@ -44,7 +44,7 @@ public class BackToEntryBeforeAcceptance {
                 if (this.repository.isOnTransfer(ruleEntity.getRuleId())) {
                     throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
                 }
-                verifyBeforeAcceptanceForPhoneAndMobile(ruleEntity, new Utils());
+                new Utils().verifyBeforeAcceptanceForPhoneAndMobile(ruleEntity);
                 Integer result = this.repository.updateRuleFeeStatus(ruleEntity.getRuleId(), ruleEntity.getRuleType(), operatorId);
                 if (result == 1) {
                     throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
@@ -113,12 +113,6 @@ public class BackToEntryBeforeAcceptance {
                 SQLValidateInfoFormat(e);
                 throw new RuntimeException("退回录入失败", e);
             }
-        }
-    }
-
-    private void verifyBeforeAcceptanceForPhoneAndMobile(RuleEntity ruleEntity, Utils utils) throws ValidateException {
-        if (ruleEntity.getIssueWay() == 6 || ruleEntity.getIssueWay() == 11) {
-            throw new ValidateException("电话与手机平台不允许此操作!");
         }
     }
 
