@@ -20,4 +20,17 @@ class UtilsTest {
                 });
         assertEquals("电话与手机平台不允许此操作!", thrown.getMessage());
     }
+
+    @Test
+    void mobile_is_not_allowed() {
+        ValidateException thrown = assertThrows(
+                ValidateException.class,
+                () -> {
+                    RuleEntity ruleEntity = mock(RuleEntity.class);
+                    when(ruleEntity.getIssueWay()).thenReturn(Long.valueOf(11));
+
+                    Utils.verifyBeforeAcceptanceForPhoneAndMobile(ruleEntity);
+                });
+        assertEquals("电话与手机平台不允许此操作!", thrown.getMessage());
+    }
 }
