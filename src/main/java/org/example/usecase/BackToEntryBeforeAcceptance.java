@@ -26,7 +26,7 @@ public class BackToEntryBeforeAcceptance {
 
             if (StringUtils.isNotBlank(sendCode)) {
                 RuleEntity ruleEntity = repository.loadRuleBySendCode(sendCode);
-                validateBeforeAcceptance(sendCode, operatorId, ruleEntity);
+                validateBeforeAcceptance(sendCode, operatorId, ruleEntity, new Utils());
 
                 Boolean elaboratelySelected = repository.isElaboratelySelected(ruleEntity.getRuleId());
                 if (elaboratelySelected) {
@@ -91,7 +91,7 @@ public class BackToEntryBeforeAcceptance {
         }
     }
 
-    private void validateBeforeAcceptance(String sendCode, String operatorId, RuleEntity ruleEntity) throws ValidateException {
+    private void validateBeforeAcceptance(String sendCode, String operatorId, RuleEntity ruleEntity, Utils utils) throws ValidateException {
         if (ruleEntity == null) {
             throw new ValidateException("单据不存在！");
         }
