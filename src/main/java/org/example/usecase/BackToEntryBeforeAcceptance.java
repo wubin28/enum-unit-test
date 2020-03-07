@@ -3,6 +3,7 @@ package org.example.usecase;
 import org.apache.commons.lang.StringUtils;
 
 public class BackToEntryBeforeAcceptance {
+    public static final int MOBILE = 11;
     private BackToEntryBeforeAcceptanceRepository repository;
 
     private UserService userService;
@@ -43,7 +44,7 @@ public class BackToEntryBeforeAcceptance {
                 if (repository.isOnTransfer(ruleEntity.getRuleId())) {
                     throw new ValidateException("该单据未处理完成，请稍后执行此操作!");
                 }
-                if (ruleEntity.getIssueWay() == 6 || ruleEntity.getIssueWay() == 11) {
+                if (Long.valueOf(CandidateModeEnum.PHONE.getValue()).equals(ruleEntity.getIssueWay()) || ruleEntity.getIssueWay() == MOBILE) {
                     throw new ValidateException("电话与手机平台不允许此操作!");
                 }
                 Integer result = repository.updateRuleFeeStatus(ruleEntity.getRuleId(), ruleEntity.getRuleType(), operatorId);
